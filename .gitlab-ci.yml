@@ -29,8 +29,7 @@ update_artifact block:
 
 release:
   image:  artifactory.infy.com:6555/infy/openjdk
-  tags:
-    - infy-aws-docker-windows
+ 
   only:
     - /^v[0-9]+\.[0-9]+\.[0-9]+5/
   script:
