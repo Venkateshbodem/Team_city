@@ -2,6 +2,8 @@
 
 publish-to-beta:
   image: nginx
+  tags:
+    - infy-aws-docker-linux
   stage: release
   only:
     - branches
