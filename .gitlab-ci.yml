@@ -36,16 +36,3 @@ release:
     - ./gradlew i publishToRemote
 
 
-publish-to-beta:
-  image: nginx
-  tags:
-    - infy-aws-docker-linux
-  stage: release
-  only:
-    - branches
-    - /^release-.*$/
-  except:
-    - master
-  when: manual
-  script:
-    - ./gradlew publish -PpublishBetaArtifactsFromTaskBranch=true --info
