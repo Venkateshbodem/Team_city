@@ -1,3 +1,40 @@
+stages:
+
+  - clone_repo
+  - create_branch
+  - update_artifact block
+  - push_changes
+  - create_pull_request
+variables:
+  GIT_STRATEGY: clone
+  GITHUB_REPO_URL: "https://github.com/Trivedha33/gradle-multi-module.git"
+  MAIN_BRANCH: "main"
+  ARTIFACTORY_URL: "https://new.artifactory.url"
+  #REPO_OWNER: "Trivedha33"
+  #REPO_NAME: "gradle-multi-module"
+  clone_repo:
+  stage: clone_repo
+  script:
+    - git clone $GITHUB_REPO_URL
+    - cd $(basename $GITHUB_REPO_URL .git)
+    - export NEW_BRANCH="dev/venky/test-beta-$REPO_NAME"
+create_branch:
+  stage: create_branch
+  script:
+    - cd $(basename $GITHUB_REPO_URL .git)
+    - git checkout -b $NEW_BRANCH
+update_artifact block:
+  stages:
+  - release
+
+release:
+  image:  artifactory.infy.com:6555/infy/openjdk
+  tags:
+    - infy-aws-docker-windows
+  only:
+    - /^v[0-9]+\.[0-9]+\.[0-9]+5/
+  script:
+    - ./gradlew i publishToRemote
 
 
 publish-to-beta:
